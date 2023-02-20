@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <!-- font-owesome -->
+    <script src="https://kit.fontawesome.com/7b5f9d112b.js" crossorigin="anonymous"></script>
+    <!-- custom css link -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="shortcut icon" href="./images/favicon.png" type="image/x-icon">
+</head>
+<body>
+    <div class="main-div">
+        <div class="music-container">
+            <h1>Music Player</h1>
+            <h2 id="title">PATHAAN SONG</h2>
+            <h3 id="artist">Arijit Singh</h3>
+            <div class="img-container">
+                <img src="./images/Jhoome joh pathan.jpg" alt="image-!" class="ion">
+            </div>
+            <audio src="./music-list/Jhoome joh pathan.mp3"></audio>
+            <!-- music controls -->
+            <div class="music-controller">
+                <i class="fa-sharp fa-solid fa-backward-fast" id="prev"></i>
+                <i class="fa-solid fa-play main-button" id="play"></i>
+                <i class="fa-sharp fa-solid fa-forward-fast" id="next"></i>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    const music = document.querySelector("audio");
+    const img = document.querySelector("img");
+    const play = document.getElementById("play");
+    const artist = document.getElementById("artist");
+    const title = document.getElementById("title");
+    const prev = document.getElementById("prev");
+    const next = document.getElementById("next");
+
+    const songs = [
+        {
+            name: "Jhoome joh pathan",
+            title: "Pathan song",
+            artist: "Arijit Singh",
+        },
+        {
+            name: "Me Khiladi Tu Anadi",
+            title: "Me Khiladi Tu An..",
+            artist: "Udit Narayan",
+        },
+        {
+            name: "Besharam Rang",
+            title: "Besharam Rang",
+            artist: "Neha Padukon",
+        },
+        {
+            name: "thoda thoda pyar",
+            title: "thoda thoda py..",
+            artist: "Nilesh Ahuja",
+        },
+
+    ]
+
+    let isPlaying = false;
+    // for play funcitonality
+    const PlayMusic = () => {
+        isPlaying = true;
+        music.play();
+        play.classList.replace("play", "pause");
+        play.classList.replace("fa-play", "fa-pause");
+        img.classList.add("animation");
+    }
+    // for pause funcitonality
+    const PauseMusic = () => {
+        isPlaying = false;
+        music.pause();
+        play.classList.replace("play", "pause");
+        play.classList.replace("fa-pause", "fa-play");
+        img.classList.remove("animation");
+    }
+    play.addEventListener('click', () => {
+        isPlaying ? PauseMusic() : PlayMusic();
+    });
+
+    // changing songs in the app
+    const loadSong = (songs) => {
+        title.textContent = songs.title;
+        artist.textContent = songs.artist;
+        music.src = "music-list/" + songs.name + ".mp3";
+        img.src = "images/" + songs.name + ".jpg";
+    };
+    songIndex = 0;
+    // loadSong(songs[2]);
+    const nextSong = () => {
+        songIndex = (songIndex + 1) % songs.length;
+        loadSong(songs[songIndex]);
+        PlayMusic();
+    }
+    const prevSong = () => {
+        songIndex = (songIndex - 1 + songs.length) % songs.length;
+        loadSong(songs[songIndex]);
+        PlayMusic();
+    }
+    next.addEventListener("click", nextSong);
+    prev.addEventListener("click", prevSong);
+
+</script>
+
+</html>
